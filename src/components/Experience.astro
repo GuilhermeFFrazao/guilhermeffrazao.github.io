@@ -8,15 +8,23 @@ type Entry = {
   tags?: string[];
 };
 
-// TODO(Guilherme): confirm the TU Dresden semester dates and BSc years.
 const entries: Entry[] = [
+  {
+    period: '2025 — Present',
+    title: "Investigator (Master's Thesis)",
+    org: 'NOVA School of Science and Technology · AMALIA project',
+    kind: 'work',
+    summary:
+      'Investigator developing a multi-modal retrieval-augmented generation system as part of AMALIA — Portugal’s first open-source large language model for European Portuguese, led by NOVA FCT and launched in July 2026.',
+    tags: ['LLMs', 'RAG', 'Multi-modal AI'],
+  },
   {
     period: '2024 — 2026',
     title: "Master's in Computer Science and Engineering",
     org: 'NOVA School of Science and Technology',
     kind: 'education',
     summary:
-      'Specializing in AI and software engineering. Thesis: a multi-modal retrieval-augmented generation system. Concluding September 2026.',
+      'Specializing in AI and software engineering. Thesis: a multi-modal retrieval-augmented generation system, developed within the AMALIA Portuguese LLM project. Concluding September 2026.',
   },
   {
     period: 'Jun — Aug 2025',
@@ -28,7 +36,7 @@ const entries: Entry[] = [
     tags: ['.NET', 'Gherkin', 'Azure DevOps', 'Jenkins', 'Figma'],
   },
   {
-    period: '2024 — 2025',
+    period: '2025 — 2026',
     title: 'Semester Abroad',
     org: 'TU Dresden, Germany',
     kind: 'education',
@@ -54,7 +62,7 @@ const entries: Entry[] = [
     tags: ['Java', 'JUnit', 'Mockito'],
   },
   {
-    period: '2020 — 2024',
+    period: '2021 — 2024',
     title: "Bachelor's in Computer Science and Engineering",
     org: 'NOVA School of Science and Technology',
     kind: 'education',
@@ -71,14 +79,24 @@ const entries: Entry[] = [
       <h2>Experience & education</h2>
     </div>
 
+    <div class="timeline-labels" data-reveal>
+      <span class="label work-label"><span class="dot work" aria-hidden="true"></span>Professional</span>
+      <span class="label edu-label"><span class="dot education" aria-hidden="true"></span>Academic</span>
+    </div>
+
     <ol class="timeline">
       {entries.map((e) => (
-        <li class="entry" data-reveal>
+        <li class:list={['entry', e.kind]} data-reveal>
           <div class="marker" aria-hidden="true">
-            <span class:list={['node', e.kind]}></span>
+            <span
+              class:list={['node', e.kind, e.period.includes('Present') && 'current']}
+            ></span>
           </div>
-          <div class="content">
-            <p class="period">{e.period}</p>
+          <div class="content card glow-card">
+            <p class="period">
+              {e.period}
+              <span class="kind-tag">{e.kind === 'work' ? 'Professional' : 'Academic'}</span>
+            </p>
             <h3>{e.title}</h3>
             <p class="org">{e.org}</p>
             <p class="summary">{e.summary}</p>
@@ -95,45 +113,177 @@ const entries: Entry[] = [
 </section>
 
 <style>
+  .timeline,
+  .timeline-labels {
+    --col-gap: clamp(1.5rem, 3vw, 2.5rem);
+    --node-y: 1.9rem;
+  }
+
+  /* Column headers straddling the spine */
+  .timeline-labels {
+    display: grid;
+    grid-template-columns: 1fr 15px 1fr;
+    column-gap: var(--col-gap);
+    margin-bottom: 2.2rem;
+  }
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .work-label {
+    grid-column: 1;
+    justify-self: end;
+  }
+  .edu-label {
+    grid-column: 3;
+    justify-self: start;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .dot.work {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .dot.education {
+    background: transparent;
+    border: 2px solid var(--text-faint);
+  }
+  .work-label .dot {
+    order: 2;
+  }
+
+  /* Spine */
   .timeline {
     list-style: none;
     padding: 0;
     position: relative;
     display: grid;
-    gap: 2.75rem;
+    gap: 2.5rem;
   }
   .timeline::before {
     content: '';
     position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -2.2rem;
+    bottom: 0;
     width: 1px;
-    background: linear-gradient(to bottom, var(--accent), var(--border) 70%);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--accent) 8%,
+      rgba(96, 165, 250, 0.35) 45%,
+      var(--border) 85%,
+      transparent
+    );
   }
+
+  /* Entry grid: card | node | card */
   .entry {
     display: grid;
-    grid-template-columns: 15px 1fr;
-    gap: 1.6rem;
+    grid-template-columns: 1fr 15px 1fr;
+    column-gap: var(--col-gap);
   }
+  .marker {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+  }
+  .entry.work .content {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .entry.education .content {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* Connector from spine to card */
+  .marker::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--node-y) + 7px);
+    height: 1px;
+    width: var(--col-gap);
+  }
+  .entry.work .marker::before {
+    right: 100%;
+    background: linear-gradient(to left, var(--accent-glow), transparent);
+  }
+  .entry.education .marker::before {
+    left: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.16), transparent);
+  }
+
+  /* Nodes */
   .node {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    margin-top: 6px;
+    margin-top: var(--node-y);
     background: var(--bg);
     border: 2px solid var(--accent);
+  }
+  .node.work {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14), 0 0 18px var(--accent-glow);
   }
   .node.education {
     border-color: var(--text-faint);
   }
+  .node.current {
+    animation: node-pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes node-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14), 0 0 18px var(--accent-glow);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.08), 0 0 28px var(--accent-glow);
+    }
+  }
+
+  /* Cards */
+  .content {
+    border-radius: var(--radius);
+    padding: 1.5rem 1.6rem 1.6rem;
+  }
+  .content:hover {
+    border-color: rgba(96, 165, 250, 0.35);
+  }
   .period {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     font-family: var(--font-display);
     font-size: var(--step--1);
     letter-spacing: 0.08em;
     color: var(--accent-bright);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.55rem;
+  }
+  .kind-tag {
+    display: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15em 0.75em;
   }
   h3 {
     font-size: var(--step-1);
@@ -146,12 +296,46 @@ const entries: Entry[] = [
   }
   .summary {
     color: var(--text-muted);
-    max-width: 62ch;
+    font-size: var(--step--1);
+    line-height: 1.7;
   }
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  /* Narrow screens: spine on the left, cards full-width */
+  @media (max-width: 820px) {
+    .timeline-labels {
+      display: none;
+    }
+    .timeline::before {
+      left: 7px;
+      transform: none;
+      top: 8px;
+    }
+    .entry {
+      grid-template-columns: 15px 1fr;
+      column-gap: 1.4rem;
+    }
+    .marker {
+      grid-column: 1;
+    }
+    .entry.work .content,
+    .entry.education .content {
+      grid-column: 2;
+    }
+    .marker::before,
+    .entry.work .marker::before {
+      left: 100%;
+      right: auto;
+      width: 1.4rem;
+      background: linear-gradient(to right, var(--border-strong), transparent);
+    }
+    .kind-tag {
+      display: inline-block;
+    }
   }
 </style>
