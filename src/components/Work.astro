@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+
+const projects = (await getCollection('work')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<section class="section" id="work">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="index">01</span>
+      <h2>Selected work</h2>
+    </div>
+
+    <div class="work-grid">
+      {projects.map((p) => (
+        <ProjectCard
+          title={p.data.title}
+          summary={p.data.summary}
+          tags={p.data.tags}
+          status={p.data.status}
+          featured={p.data.featured}
+          href={`/work/${p.id}/`}
+        />
+      ))}
+
+      <div class="card glow-card gh-card" data-reveal>
+        <div>
+          <h3>More on GitHub</h3>
+          <p>Experiments, coursework, and works in progress live on my GitHub.</p>
+        </div>
+        <a class="btn" href="https://github.com/GuilhermeFFrazao" target="_blank" rel="noopener">
+          Visit GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M7 17 17 7m0 0H8m9 0v9" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .gh-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: clamp(1.6rem, 4vw, 2.2rem);
+  }
+  .gh-card h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
+  }
+  .gh-card p {
+    color: var(--text-muted);
+    max-width: 44ch;
+  }
+</style>

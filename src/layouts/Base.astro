@@ -1,0 +1,85 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Set on the homepage only — adds the JSON-LD Person schema. */
+  isHome?: boolean;
+}
+
+const { title, description, isHome = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Guilherme Frazão',
+  jobTitle: 'Software Engineer',
+  email: 'mailto:guilhermeffrazao10@gmail.com',
+  url: Astro.site?.toString(),
+  sameAs: [
+    'https://www.linkedin.com/in/guilhermeffrazao/',
+    'https://github.com/GuilhermeFFrazao',
+  ],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'NOVA School of Science and Technology',
+  },
+  address: { '@type': 'PostalAddress', addressLocality: 'Lisbon', addressCountry: 'PT' },
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Guilherme Frazão" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#0a0a0f" />
+
+    {isHome && <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />}
+  </head>
+  <body class="grain">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 1000;
+    background: var(--surface-2);
+    color: var(--text);
+    padding: 0.6em 1.2em;
+    border-radius: 8px;
+    border: 1px solid var(--border-strong);
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+</style>

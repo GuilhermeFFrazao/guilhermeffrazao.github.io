@@ -1,0 +1,119 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait.png';
+
+// TODO(Guilherme): review this drafted story — correct anything that doesn't
+// sound like you.
+const beliefs = [
+  'Ship things that work, then make them elegant',
+  'AI is a tool for leverage, not a magic wand',
+  'The best engineers never stop being students',
+];
+---
+
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="index">02</span>
+      <h2>About</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="portrait card" data-reveal>
+        <Image src={portrait} alt="Portrait of Guilherme Frazão" widths={[340, 680]} sizes="(max-width: 820px) 300px, 340px" />
+      </div>
+
+      <div class="story" data-reveal>
+        <p>
+          I grew up in Abrantes, Portugal, and found my way into software the
+          usual way — by being too curious to leave things unexamined. That
+          curiosity took me to <strong>NOVA School of Science and Technology</strong> in
+          Lisbon for my bachelor's and master's in Computer Science, and to
+          <strong>TU Dresden</strong> in Germany for a semester abroad.
+        </p>
+        <p>
+          Along the way I've built and shipped software in three very different
+          environments: debugging and extending customer portals at
+          <strong>Vodafone</strong>, designing Azure landing zones as a consultant at
+          <strong>Unipartner</strong>, and developing product features on a remote,
+          international team at <strong>Intapp</strong>.
+        </p>
+        <p>
+          Right now, my energy goes into <strong>applied AI</strong> — my master's
+          thesis is a retrieval-augmented generation system that lets LLMs work
+          with multi-modal data. I care about building AI systems that are
+          genuinely useful: grounded, reliable, and shaped around real problems.
+        </p>
+
+        <ul class="beliefs">
+          {beliefs.map((b) => (
+            <li>
+              <span class="dot" aria-hidden="true"></span>
+              {b}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 340px) 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .portrait {
+    aspect-ratio: 4 / 5;
+    position: sticky;
+    top: 6rem;
+  }
+  .portrait :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.92);
+  }
+  .story p {
+    color: var(--text-muted);
+    margin-bottom: 1.3rem;
+    max-width: 62ch;
+  }
+  .story strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .beliefs {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .beliefs li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: var(--font-display);
+    font-size: var(--step-0);
+    color: var(--text);
+  }
+  .dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gradient-accent);
+  }
+  @media (max-width: 820px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+    .portrait {
+      position: static;
+      max-width: 300px;
+    }
+  }
+</style>

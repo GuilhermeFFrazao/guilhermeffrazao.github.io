@@ -1,0 +1,40 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© {year} Guilherme Frazão</p>
+    <p class="built">Designed & built with Astro · Lisbon, Portugal</p>
+    <div class="footer-links">
+      <a class="link-draw" href="https://github.com/GuilhermeFFrazao" target="_blank" rel="noopener">GitHub</a>
+      <a class="link-draw" href="https://www.linkedin.com/in/guilhermeffrazao/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="link-draw" href="mailto:guilhermeffrazao10@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-block: 2.5rem;
+    margin-top: calc(var(--section-gap) / 2);
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: var(--step--1);
+    color: var(--text-faint);
+  }
+  .built {
+    color: var(--text-faint);
+  }
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--text-muted);
+  }
+</style>

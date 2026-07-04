@@ -1,0 +1,115 @@
+---
+const groups = [
+  {
+    name: 'AI & Machine Learning',
+    items: ['LLMs', 'Retrieval-Augmented Generation', 'Prompt engineering', 'Embeddings & vector search', 'ML fundamentals'],
+  },
+  {
+    name: 'Languages',
+    items: ['Java', 'Python', 'JavaScript / TypeScript', 'SQL', 'HTML & CSS'],
+  },
+  {
+    name: 'Cloud & Practices',
+    items: ['Microsoft Azure', 'Git', 'CI/CD', 'Agile & DevOps methodologies', 'BDD testing'],
+  },
+  {
+    name: 'Human',
+    items: ['English (C2)', 'Portuguese (native)', 'Public speaking', 'Remote collaboration'],
+  },
+];
+
+const certs = [
+  { name: 'Certificate in Advanced English (C2)', org: 'Cambridge Assessment', year: '2020' },
+  { name: 'Master AI with Gemini', org: 'Santander Open Academy', year: '2025' },
+  { name: 'Effective Communication & Business Writing', org: 'Santander Open Academy', year: '2025' },
+  { name: 'Entrepreneurs Academy', org: 'NOVA University', year: '2022' },
+];
+---
+
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="index">04</span>
+      <h2>Skills</h2>
+    </div>
+
+    <div class="skills-grid">
+      {groups.map((g) => (
+        <div class="card glow-card group" data-reveal>
+          <h3>{g.name}</h3>
+          <div class="tags">
+            {g.items.map((s) => <span class="tag">{s}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="certs" data-reveal>
+      <h3 class="certs-title">Certifications & courses</h3>
+      <ul>
+        {certs.map((c) => (
+          <li>
+            <span class="cert-name">{c.name}</span>
+            <span class="cert-meta">{c.org} · {c.year}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 1.5rem;
+  }
+  .group {
+    padding: 1.8rem;
+  }
+  .group h3 {
+    font-size: var(--step-0);
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 1.1rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .certs {
+    margin-top: 3rem;
+  }
+  .certs-title {
+    font-size: var(--step-0);
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 1.1rem;
+  }
+  .certs ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .certs li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .certs li:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .cert-name {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+  }
+  .cert-meta {
+    font-size: var(--step--1);
+    color: var(--text-faint);
+  }
+</style>

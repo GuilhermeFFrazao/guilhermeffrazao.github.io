@@ -1,0 +1,157 @@
+---
+type Entry = {
+  period: string;
+  title: string;
+  org: string;
+  kind: 'work' | 'education';
+  summary: string;
+  tags?: string[];
+};
+
+// TODO(Guilherme): confirm the TU Dresden semester dates and BSc years.
+const entries: Entry[] = [
+  {
+    period: '2024 — 2026',
+    title: "Master's in Computer Science and Engineering",
+    org: 'NOVA School of Science and Technology',
+    kind: 'education',
+    summary:
+      'Specializing in AI and software engineering. Thesis: a multi-modal retrieval-augmented generation system. Concluding September 2026.',
+  },
+  {
+    period: 'Jun — Aug 2025',
+    title: 'Software Engineering Intern',
+    org: 'Intapp',
+    kind: 'work',
+    summary:
+      'Worked on a remote, international product team — shipped features to client deadlines, collaborated with design, and built BDD test suites.',
+    tags: ['.NET', 'Gherkin', 'Azure DevOps', 'Jenkins', 'Figma'],
+  },
+  {
+    period: '2024 — 2025',
+    title: 'Semester Abroad',
+    org: 'TU Dresden, Germany',
+    kind: 'education',
+    summary:
+      'Exchange semester of the master’s programme — studying and living in an international, German-speaking environment.',
+  },
+  {
+    period: 'Mar — Aug 2024',
+    title: 'Trainee Consultant',
+    org: 'Unipartner IT Services',
+    kind: 'work',
+    summary:
+      'Trained in data-centre transformation; provisioned Azure landing zones, assessed and optimized client workloads, and supported clients directly.',
+    tags: ['Microsoft Azure', 'Cloud architecture'],
+  },
+  {
+    period: 'Jun — Sep 2023',
+    title: 'Software Developer (Summer Internship)',
+    org: 'Vodafone',
+    kind: 'work',
+    summary:
+      'Debugged, tested, and extended customer-facing portals; developed new functionality and wrote technical documentation.',
+    tags: ['Java', 'JUnit', 'Mockito'],
+  },
+  {
+    period: '2020 — 2024',
+    title: "Bachelor's in Computer Science and Engineering",
+    org: 'NOVA School of Science and Technology',
+    kind: 'education',
+    summary:
+      'Foundations in algorithms, systems, and software engineering — the base everything else is built on.',
+  },
+];
+---
+
+<section class="section" id="experience">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="index">03</span>
+      <h2>Experience & education</h2>
+    </div>
+
+    <ol class="timeline">
+      {entries.map((e) => (
+        <li class="entry" data-reveal>
+          <div class="marker" aria-hidden="true">
+            <span class:list={['node', e.kind]}></span>
+          </div>
+          <div class="content">
+            <p class="period">{e.period}</p>
+            <h3>{e.title}</h3>
+            <p class="org">{e.org}</p>
+            <p class="summary">{e.summary}</p>
+            {e.tags && (
+              <div class="tags">
+                {e.tags.map((t) => <span class="tag">{t}</span>)}
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    display: grid;
+    gap: 2.75rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--border) 70%);
+  }
+  .entry {
+    display: grid;
+    grid-template-columns: 15px 1fr;
+    gap: 1.6rem;
+  }
+  .node {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: 6px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+  .node.education {
+    border-color: var(--text-faint);
+  }
+  .period {
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    color: var(--accent-bright);
+    margin-bottom: 0.3rem;
+  }
+  h3 {
+    font-size: var(--step-1);
+  }
+  .org {
+    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    margin-bottom: 0.6rem;
+  }
+  .summary {
+    color: var(--text-muted);
+    max-width: 62ch;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+</style>

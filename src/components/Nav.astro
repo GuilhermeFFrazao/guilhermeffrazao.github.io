@@ -1,0 +1,158 @@
+---
+const links = [
+  { label: 'Work', href: '/#work' },
+  { label: 'About', href: '/#about' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Contact', href: '/#contact' },
+];
+---
+
+<header class="nav" id="site-nav">
+  <div class="container nav-inner">
+    <a class="logo" href="/" aria-label="Guilherme Frazão — home">
+      <span class="logo-mark">GF</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      {links.map((l) => (
+        <a class="link-draw" href={l.href}>{l.label}</a>
+      ))}
+    </nav>
+
+    <div class="nav-actions">
+      <a class="btn" href="/CV_GuilhermeFrazao.pdf" download>
+        CV
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 3v13m0 0 5-5m-5 5-5-5M4 21h16" />
+        </svg>
+      </a>
+      <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    {links.map((l) => (
+      <a href={l.href}>{l.label}</a>
+    ))}
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById('site-nav')!;
+  const btn = document.getElementById('menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const closeMenu = () => {
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('open');
+  };
+  btn.addEventListener('click', () => {
+    const open = menu.hidden;
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.classList.toggle('open', open);
+  });
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 100;
+    transition: background 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(10, 10, 15, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.9rem;
+    gap: 1.5rem;
+  }
+  .logo-mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+  }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 42px;
+    height: 42px;
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+  .menu-btn span {
+    display: block;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease-out), opacity 0.3s;
+  }
+  .menu-btn.open span:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+  .menu-btn.open span:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem var(--gutter) 1.5rem;
+    background: rgba(10, 10, 15, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    padding: 0.5rem 0;
+    color: var(--text);
+  }
+  @media (max-width: 720px) {
+    .nav-links {
+      display: none;
+    }
+    .menu-btn {
+      display: flex;
+    }
+  }
+</style>

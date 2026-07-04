@@ -1,0 +1,86 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  tags: string[];
+  href?: string;
+  status?: string;
+  featured?: boolean;
+}
+
+const { title, summary, tags, href, status, featured = false } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag class:list={['card', 'glow-card', 'project-card', { featured }]} href={href} data-reveal>
+  <div class="body">
+    {status && <span class="status">{status}</span>}
+    <h3>{title}</h3>
+    <p>{summary}</p>
+    <div class="tags">
+      {tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    {href && (
+      <span class="cta">
+        Read the case study
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14m0 0-6-6m6 6-6 6" />
+        </svg>
+      </span>
+    )}
+    <slot name="cta" />
+  </div>
+</Tag>
+
+<style>
+  .project-card {
+    display: block;
+    padding: clamp(1.6rem, 4vw, 2.6rem);
+  }
+  .project-card.featured {
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(37, 99, 235, 0.12), transparent 55%),
+      var(--surface);
+  }
+  .status {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent-bright);
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    border-radius: 999px;
+    padding: 0.3em 0.9em;
+    margin-bottom: 1.1rem;
+  }
+  h3 {
+    font-size: var(--step-2);
+    margin-bottom: 0.7rem;
+  }
+  p {
+    color: var(--text-muted);
+    max-width: 58ch;
+    margin-bottom: 1.4rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.4rem;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    color: var(--text);
+  }
+  .cta svg {
+    transition: transform 0.35s var(--ease-out);
+  }
+  .project-card:hover .cta svg {
+    transform: translateX(5px);
+  }
+</style>
